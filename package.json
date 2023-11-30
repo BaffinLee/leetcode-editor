@@ -1,0 +1,28 @@
+{
+    "name": "@baffinlee/leetcode-editor",
+    "version": "0.0.1",
+    "main": "dist/index.js",
+    "files": [
+        "dist"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "build": "fse emptyDir --quiet dist && npm run build:main && npm run build:worker && fse copy src/index.html dist/index.html",
+        "build:worker": "npm run build:editor && npm run build:ts && npm run build:json && npm run build:css && npm run build:html",
+        "build:main": "esbuild src/index.ts --bundle --minify --keep-names --sourcemap --loader:.ttf=dataurl --outfile=dist/index.js",
+        "build:ts": "esbuild src/ts.worker.ts --bundle --minify --keep-names --sourcemap --outfile=dist/worker/ts.worker.js",
+        "build:json": "esbuild node_modules/monaco-editor/esm/vs/language/json/json.worker.js --bundle --minify --keep-names --sourcemap --outfile=dist/worker/json.worker.js",
+        "build:css": "esbuild node_modules/monaco-editor/esm/vs/language/css/css.worker.js --bundle --minify --keep-names --sourcemap --outfile=dist/worker/css.worker.js",
+        "build:html": "esbuild node_modules/monaco-editor/esm/vs/language/html/html.worker.js --bundle --minify --keep-names --sourcemap --outfile=dist/worker/html.worker.js",
+        "build:editor": "esbuild node_modules/monaco-editor/esm/vs/editor/editor.worker.js --bundle --minify --keep-names --sourcemap --outfile=dist/worker/editor.worker.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/BaffinLee/leetcode-editor.git"
+    },
+    "dependencies": {
+        "@atao60/fse-cli": "^0.1.9",
+        "esbuild": "^0.19.8",
+        "monaco-editor": "^0.44.0"
+    }
+}
